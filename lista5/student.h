@@ -3,6 +3,7 @@
 
 typedef struct list List;
 typedef struct student Student;
+typedef struct node Node;
 
 List *createList();
 void insert_at_start(List *list, char *name, int e_number);

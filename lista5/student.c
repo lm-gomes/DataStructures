@@ -3,19 +3,24 @@
 #include <string.h>
 #include "student.h"
 
-struct list{
-    Student *firstStudent;
-    Student *lastStudent;
-    int size;
-};
-
 struct student{
-    Student *nextStudent;
-    Student *prvStudent;
     char *name;
     int e_number;
       
 };
+
+struct list{
+    Node *firstNode;
+    Node *lastNode;
+    int size;
+};
+
+struct node{
+    Node *nextNode;
+    Student student;
+    Node *prvNode;
+};
+
 
 List *createList(){
     List *list = (List*)malloc(sizeof(List));
@@ -23,73 +28,104 @@ List *createList(){
         printf("It was not possible to create the list...\n");
         return NULL;
     }
-    list->firstStudent = NULL;
-    list->lastStudent = NULL;
+    list->firstNode = NULL;
+    list->lastNode = NULL;
     list->size = 0;
     printf("List created!\n");
     return list;
 }
 
 void insert_at_start(List *list, char *name, int e_number){
-    Student *student = (Student*)malloc(sizeof(Student)); 
+
+    Node *node = (Node*)malloc(sizeof(Node)); 
     
-    if(student == NULL){
+    if(node == NULL){
         printf("It was not possible to insert the student in the list...");
         return;
     }
-
-    student->name = malloc(strlen(name) + 1);
-    strcpy(student->name, name);
-    student->e_number = e_number;
-    student->nextStudent = list->firstStudent;
-    student->prvStudent = NULL;
+    node->student.name = malloc(sizeof(strlen(name) + 1));
     
-    if(list->firstStudent == NULL){
-        list->lastStudent = student;
+    strcpy(node->student.name, name);
+    node->student.e_number = e_number;
+    node->nextNode = list->firstNode;
+    node->prvNode = NULL;
+    
+    if(list->firstNode == NULL){
+        list->lastNode = node;
     }
     else{
-        list->firstStudent->prvStudent = student;
+        list->firstNode->prvNode = node;
     }
-    list->firstStudent = student;
+    list->firstNode = node;
     list->size++;
 
 }
 
 void insert_at_end(List *list, char *name, int e_number){
-    Student *student = (Student*)malloc(sizeof(Student));
-    if(student == NULL){
+    Node *node = (Node*)malloc(sizeof(Node));
+
+    if(node == NULL){
         printf("It was not possible to insert the student...");
         return;
     }
-    student->name = malloc(strlen(name) + 1);
-    strcpy(student->name, name);
-    student->e_number = e_number;
-    student->nextStudent = NULL;
+    node->student.name = malloc(strlen(name) + 1);
+    strcpy(node->student.name, name);
+    node->student.e_number = e_number;
+    node->nextNode = NULL;
 
-    if(list->lastStudent == NULL){
-        list->firstStudent = student;
-        list->firstStudent->prvStudent = NULL;
+    if(list->lastNode == NULL){
+        list->firstNode = node;
+        list->firstNode->prvNode = NULL;
     } 
     else{
-        list->lastStudent->nextStudent = student;
-        student->prvStudent = list->lastStudent;
+        list->lastNode->nextNode = node;
+        node->prvNode = list->lastNode;
     }
-    list->lastStudent = student;
+    list->lastNode = node;
     list->size++;
   
 }
 
-void print_list(List *list){
-    Student *currentStudent = list->firstStudent;
+void insert_after_enumber(List *list, char *name, int e_number){
+    Node *node = (Node*)malloc(sizeof(Node));
+    if(node == NULL){
+        printf("It was not possible to insert into the list...");
+        return;
+    }
+    node->student.name = malloc(strlen(name) + 1);
+    strcpy(node->student.name, name);
+    node->student.e_number = e_number;
     
-    if(list->firstStudent == NULL){
+    Node *currentNode = list->firstNode;   
+
+    while(currentNode != NULL && currentNode->student.e_number != e_number){
+        currentNode = currentNode->nextNode;
+    }
+
+    if(currentNode == NULL){
+        printf("The value was not found in the list...");
+        return;
+    }
+
+    node->nextNode = currentNode->nextNode;
+    currentNode->nextNode->prvNode = node;
+    node->prvNode = currentNode;
+    currentNode->nextNode = node;
+    
+        
+}
+
+void print_list(List *list){
+    Node *currentNode = list->firstNode;
+    
+    if(list->firstNode == NULL){
         printf("The list is empty!");
         return;
     }
 
-    for(int i = 1; currentStudent != NULL; i++){
-        printf("%d Student: %s, E_Number: %d\n", i, currentStudent->name, currentStudent->e_number);
-        currentStudent = currentStudent->nextStudent;
+    for(int i = 1; currentNode != NULL; i++){
+        printf("%d Student: %s, E_Number: %d\n", i, currentNode->student.name, currentNode->student.e_number);
+        currentNode = currentNode->nextNode;;
     }
 
 }

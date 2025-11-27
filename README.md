@@ -8,4 +8,4 @@ This repository contains all of the data structures listed below:
 ### Doubly Linked List
 ##### Doubly Linked List is a data structure composed by nodes. Each node represents some type of data and has a pointer to the next and the previous node, allowing navigating back and forward through nodes. This concept is an evolution of a Singly Linked List, that is only capable of pointing to the next node.
 
-[![Doubly Linked List](https://www.youtube.com/watch?v=xjkyuYtN-n4)
+[![Doubly Linked List](https://img.youtube.com/vi/xjkyuYtN-n4/0.jpg)](https://www.youtube.com/watch?v=xjkyuYtN-n4)
